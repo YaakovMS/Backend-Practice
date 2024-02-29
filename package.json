@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "backend-practice",
-=======
   "name": "backend-practice-develop",
->>>>>>> develop
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
