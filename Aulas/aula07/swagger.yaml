@@ -13,6 +13,13 @@ paths:
     get:
       tags:
         - produtos
+      responses:
+        200:
+          description: Uma lista de produtos cadastrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayDeProdutos'
     post:
       tags:
         - produtos
@@ -40,6 +47,24 @@ paths:
     get:
       tags:
         - produtos
+      parameters:
+        - in: path
+          name: produtoId
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        404:
+          description: Produto não encontrado
+          content:
+            appliction/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
     put:
       tags:
         - produtos
@@ -76,8 +101,26 @@ paths:
     delete:
       tags:
         - produtos
+      parameters:
+        - in: path
+          name: produtoId
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Produto removido com sucesso
+        404:
+          description: Produto não encontrado
+          content:
+            appliction/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
 components:
   schemas:
+    ArrayDeProdutos:
+      type: array
+      items:
+        $ref: '#/components/schemas/Produto'
     DadosProduto:
       type: object
       properties:
