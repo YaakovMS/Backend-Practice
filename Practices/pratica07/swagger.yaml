@@ -1,0 +1,132 @@
+openapi: 3.0.0  # Atribuindo a versão 3.0.0
+
+info:
+  title: Nome do Seu Projeto
+  description: Descrição do Seu Projeto
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Ambiente de desenvolvimento
+
+tags:
+  - name: produtos
+
+paths:
+  /produtos:
+    get:
+      tags:
+        - produtos
+      summary: Lista todos os produtos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfProdutos'  # Referenciando o componente ArrayOfProdutos
+    post:
+      tags:
+        - produtos
+      summary: Cria um novo produto
+      requestBody:
+        description: Um JSON com dados do novo produto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+        '422':
+          description: Nome e preço são obrigatórios
+
+  /produtos/{produtoId}:
+    get:
+      tags:
+        - produtos
+      summary: Obtém detalhes de um produto específico
+      parameters:
+        - in: path
+          name: produtoId
+          schema:
+            type: integer
+          required: true
+          description: ID do produto a ser buscado
+      responses:
+        '200':
+          description: Um JSON com os dados do produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+        '404':
+          description: Produto não encontrado
+
+    put:
+      tags:
+        - produtos
+      summary: Atualiza um produto existente
+      parameters:
+        - in: path
+          name: produtoId
+          schema:
+            type: integer
+          required: true
+          description: ID do produto a ser atualizado
+      requestBody:
+        description: Um JSON com dados do novo produto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+      responses:
+        '200':
+          description: Produto atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+        '404':
+          description: Produto não encontrado
+        '422':
+          description: Nome e preço são obrigatórios
+
+    delete:
+      tags:
+        - produtos
+      summary: Remove um produto existente
+      parameters:
+        - in: path
+          name: produtoId
+          schema:
+            type: integer
+          required: true
+          description: ID do produto a ser removido
+      responses:
+        '204':
+          description: Produto removido com sucesso
+        '404':
+          description: Produto não encontrado
+
+components:
+  schemas:
+    ArrayOfProdutos:
+      type: array
+      items:
+        $ref: '#/components/schemas/Produto'  # Referenciando o componente Produto
+    Produto:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        preco:
+          type: number
